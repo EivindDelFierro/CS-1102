@@ -1,18 +1,22 @@
+// import the scanner module in order to receive user input from System.in.
 import java.util.Scanner;
 
 public class Week1QuizGame {
+  // Initialize a new scanner class object and the score.
+  private static Scanner scanner = new Scanner(System.in);
+  private static int score = 0;
+
+  // main application where the question sets are defined and runGame is called.
   public static void main(String[] args){
-    // Scanner object in order to receive input from user via System.in
-    Scanner scanner = new Scanner(System.in)
 
-    String[] question1 = new String[]{"What is the national dish of England?", "A", "A. Tikka Masala, B. Ham and Cheese, C. Fish and Chips, D. Butter Chicken"};
-    String[] question2 = new String[]{"What is the most populous country on Earth?", "C", "A. Indonesia, B. China, C. India, D. United States"};
-    String[] question3 = new String[]{"How many toes do cats have on their back paws?", "D", "A. Five, B. Three, C. Six, D. Four"}; 
-    String[] question4 = new String[]{"What war led to the death by guillotine of Marie Antoinette?", "A", "A. The French Revolution, B. War of the First Coalition, C. Irish Rebellion, D. War of the Second Coalition"};
+    String[] question1 = {"What is the national dish of England?", "A", "A. Tikka Masala, B. Ham and Cheese, C. Fish and Chips, D. Butter Chicken"};
+    String[] question2 = {"What is the most populous country on Earth?", "C", "A. Indonesia, B. China, C. India, D. United States"};
+    String[] question3 = {"How many toes do cats have on their back paws?", "D", "A. Five, B. Three, C. Six, D. Four"}; 
+    String[] question4 = {"What war led to the death by guillotine of Marie Antoinette?", "A", "A. The French Revolution, B. War of the First Coalition, C. Irish Rebellion, D. War of the Second Coalition"};
 
-    String[] question5 = new String[]{"What is the national animal of Scotland?", "B", "A. Red squirrel, B. Unicorn, C. Harpy eagle, D. Brown bear"};
+    String[] question5 = {"What is the national animal of Scotland?", "B", "A. Red squirrel, B. Unicorn, C. Harpy eagle, D. Brown bear"};
 
-    String[][] questionSets = new []{
+    String[][] questionSets = {
       question1,
       question2,
       question3,
@@ -20,29 +24,78 @@ public class Week1QuizGame {
       question5
     };
 
-    int score = 0;
-
-    public static void introduction() {
-      System.out.println("Hello! What\'s your name?");
-      String name = scanner.nextLine();
-      System.out.println("Hello" + (name.length > 0 ? " " + name : "") + "!")
-      // welcome, only type the first letter
-    };
-
-    public static void promptQuestion(string[][] questionSet) {
-      String question = questionSet[0];
-      String correctAnswer = questionSet[1];
-      String questionChoices = questionSet[2]
-
-      System.out.println("Here is our next question...")
-      System.out.println(question)
-      System.out.println(questionChoices);
-      System.out.println("Remember to only type the letter for your answer! And your answer is...")
-      String choice = scanner.nextln();
-      if (choice.toUpperCase().equals(correctAnswer)) {
-        
-        score++
-      }
-    }
+    runGame(questionSets);
   }
+
+  // Asks the player their name then greets the player. Then the program displays instructions to user.
+  public static void introduction() {
+    System.out.println("Hello! What\'s your name?");
+    String name = scanner.nextLine();
+    System.out.println("Hello" + (name.length() > 0 ? " " + name : "") + "!");
+    System.out.println("Today we're playing a quick game. The setup is simple! You'll be prompted with a question and then you can reply with the letter associated with your answer. Let's see how high you can score!");
+  };
+
+  // Accesses a question array to display the question and choices to the user. If the user is able to answer correctly, increments the score by one.
+  public static void promptQuestion(String[] questionSet) {
+    String question = questionSet[0];
+    String correctAnswer = questionSet[1];
+    String questionChoices = questionSet[2];
+
+    System.out.println("Here is the question...")
+    System.out.println(question);
+    System.out.println(questionChoices);
+    System.out.println("Remember to only type the letter for your answer! And your answer is...")
+
+    do {
+      String choice = scanner.nextLine().toUpperCase();
+    } while (choice.length() < 1)
+
+    if (choice.toUpperCase().equals(correctAnswer)) {
+      System.out.println("...");
+      System.out.println("Correct!");
+      score++;
+    } else {
+      System.out.println("...");
+      System.out.println("I'm sorry, but the correct answer was " + correctAnswer + ".")
+    }
+
+    System.out.println("Your score is now" + score + ".");
+  }
+
+  // Displays to the user the number of questions they had right and the percentage score. Then asks the user if they wish to keep playing. If an invalid answer is entered, the prompt will repeat until a valid answer is submitted.
+  public static boolean playAgain() {
+    int scorePercent = intValue(score / 5 * 100);
+    System.out.println("You scored " + score + " out of 5! That's" + scorePercent + "%!");
+    score = 0;
+
+    System.out.println("Do you want to keep playing? Enter yes or no to continue.");
+
+    while (true){
+      String continueChoice = scanner.nextLine().toLowerCase();
+
+      switch (continueChoice) {
+        case "yes" -> return true;
+        case "no" -> return false;
+        default -> System.out.println("I didn't get your answer. Please try again.");
+      }
+    }    
+  }
+
+  // Runs introduction, then iterates through the questionSets to ask questions. When the game ends, calls playAgain to determine if the player wants to play again. If not, Thanks the player and closes the scanner.
+  public static void runGame(String[][] questionSets) {
+    boolean keepPlaying;
+
+    introduction();
+
+    do {
+      for (String[] questionSet : questionSets){
+        promptQuestion(questionSet);
+      }
+
+      keepPlaying = playAgain();
+    } while (keepPlaying);
+
+    System.out.println("Thank you for playing!");
+    scanner.close();
+  }  
 }
