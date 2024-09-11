@@ -63,7 +63,7 @@ public class Week1QuizGame {
     private static void introduction() {
         System.out.println("Hello! What\'s your name?");
         final String NAME = SCANNER.nextLine();
-        System.out.printf("Hello%s!", NAME.length() > 0 ? " " + NAME : "");
+        System.out.printf("Hello%s! ", NAME.length() > 0 ? " " + NAME : "");
         System.out.println("Today we're playing a quick game. The setup is simple! You'll be prompted with a question and then you can reply with the letter associated with your answer. Let's see how high you can score!\n");
     };
 
@@ -87,7 +87,7 @@ public class Week1QuizGame {
             System.out.println("Correct!");
             score++;
         } else {
-            System.out.printf("I'm sorry, but the correct answer was %s.", CORRECT_ANSWER);
+            System.out.printf("I'm sorry, but the correct answer was %s. ", CORRECT_ANSWER);
         }
 
         System.out.println("Your score is now " + score + ".\n");
@@ -111,8 +111,8 @@ public class Week1QuizGame {
     private static boolean playAgain(int numOfQuestions) {
         final int SCORE_PERCENT = (int) ((double)score / numOfQuestions * 100);
         
-        System.out.printf("\nYou scored %d out of %d! That's %d%!", score, numOfQuestions, SCORE_PERCENT);
-        System.out.println("Do you want to keep playing? Enter yes or no to continue.");
+        System.out.printf("You scored %d out of %d! That's %d%%!", score, numOfQuestions, SCORE_PERCENT);
+        System.out.println("\nDo you want to keep playing? Enter yes or no to continue.");
 
         while (true) {
             String continueChoice = SCANNER.nextLine().toLowerCase();
