@@ -1,4 +1,4 @@
-// import the scanner module in order to receive user input from System.in.
+// import the scanner module module needed to receive user input from System.in.
 import java.util.Scanner;
 
 public class Week1QuizGame {
@@ -52,7 +52,7 @@ public class Week1QuizGame {
                 promptQuestion(questionSet);
             }
 
-            willPlayAgain = playAgain();
+            willPlayAgain = playAgain(questionSets.length);
         } while (willPlayAgain);
 
         System.out.println("Thank you for playing!");
@@ -63,7 +63,7 @@ public class Week1QuizGame {
     private static void introduction() {
         System.out.println("Hello! What\'s your name?");
         final String NAME = SCANNER.nextLine();
-        System.out.println("Hello" + (NAME.length() > 0 ? " " + NAME : "") + "!");
+        System.out.printf("Hello%s!", NAME.length() > 0 ? " " + NAME : "");
         System.out.println("Today we're playing a quick game. The setup is simple! You'll be prompted with a question and then you can reply with the letter associated with your answer. Let's see how high you can score!\n");
     };
 
@@ -75,7 +75,7 @@ public class Week1QuizGame {
 
         System.out.println(QUESTION);
         System.out.println(QUESTION_CHOICES);
-        System.out.println("\nRemember to only type the letter for your answer! And your answer is...");
+        System.out.println("\nAnd your answer is...");
 
         String choice;
 
@@ -87,7 +87,7 @@ public class Week1QuizGame {
             System.out.println("Correct!");
             score++;
         } else {
-            System.out.println("I'm sorry, but the correct answer was " + CORRECT_ANSWER + ".");
+            System.out.printf("I'm sorry, but the correct answer was %s.", CORRECT_ANSWER);
         }
 
         System.out.println("Your score is now " + score + ".\n");
@@ -102,16 +102,16 @@ public class Week1QuizGame {
             case "D":
               return true;
             default:
-              System.out.println("Please enter a valid Choice. Enter A, B, C, or D");
+              System.out.println("Remember to only submit the letter choice associated with for your answer! Enter A, B, C, or D.");
               return false;
         }
     }
 
     // Displays the number of correct answers and the percentage score, then asks the user if they wish to keep playing. If they answer yes, the score is reset to 0, and returns true. If no, the function returns false. If an invalid answer is entered, the prompt will repeat until a valid answer is submitted.
-    private static boolean playAgain() {
-        final int SCORE_PERCENT = (int) (score / 5.0 * 100);
+    private static boolean playAgain(int numOfQuestions) {
+        final int SCORE_PERCENT = (int) ((double)score / numOfQuestions * 100);
         
-        System.out.println("\nYou scored " + score + " out of 5! That's " + SCORE_PERCENT + "%!");
+        System.out.printf("\nYou scored %d out of %d! That's %d%!", score, numOfQuestions, SCORE_PERCENT);
         System.out.println("Do you want to keep playing? Enter yes or no to continue.");
 
         while (true) {
