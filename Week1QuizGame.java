@@ -46,9 +46,24 @@ public class Week1QuizGame {
     System.out.println(questionChoices);
     System.out.println("Remember to only type the letter for your answer! And your answer is...")
 
+    // Uses a switch case to check if the user entered a valid choice, if not, prompts again.
+    String choice;
+    boolean validChoice;
+
     do {
-      String choice = scanner.nextLine().toUpperCase();
-    } while (choice.length() < 1)
+      choice = scanner.nextLine().toUpperCase();
+
+      switch (choice) {
+        case "A":
+        case "B":
+        case "C":
+        case "D":
+          validChoice = true;
+          break;
+        default:
+          System.out.println("Please enter a valid Choice. Enter A, B, C, or D")
+      }
+    } while (!validChoice);
 
     if (choice.toUpperCase().equals(correctAnswer)) {
       System.out.println("...");
@@ -62,10 +77,11 @@ public class Week1QuizGame {
     System.out.println("Your score is now" + score + ".");
   }
 
-  // Displays to the user the number of questions they had right and the percentage score. Then asks the user if they wish to keep playing. If an invalid answer is entered, the prompt will repeat until a valid answer is submitted.
+  // Displays to the user the number of questions they had right and the percentage score. After displaying the score, resets the score back to 0Then asks the user if they wish to keep playing. If an invalid answer is entered, the prompt will repeat until a valid answer is submitted.
   public static boolean playAgain() {
-    int scorePercent = intValue(score / 5 * 100);
-    System.out.println("You scored " + score + " out of 5! That's" + scorePercent + "%!");
+    Double scoreDouble = score / 5.0 * 100; // Used the Double class instead of the double primitive to easily convert to an integer.
+    int scorePercent = scoreDouble.intValue();
+    System.out.println("You scored " + score + " out of 5! That's " + scorePercent + "%!");
     score = 0;
 
     System.out.println("Do you want to keep playing? Enter yes or no to continue.");
@@ -74,9 +90,11 @@ public class Week1QuizGame {
       String continueChoice = scanner.nextLine().toLowerCase();
 
       switch (continueChoice) {
-        case "yes" -> return true;
-        case "no" -> return false;
-        default -> System.out.println("I didn't get your answer. Please try again.");
+        case "yes":
+          return true;
+        case "no":
+          return false;
+        default: System.out.println("I didn't get your answer. Please try again.");
       }
     }    
   }
