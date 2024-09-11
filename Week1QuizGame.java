@@ -27,7 +27,7 @@ public class Week1QuizGame {
   }
 
   // Asks the player their name then greets the player. Then the program displays instructions to user.
-  private static final void introduction() {
+  private static void introduction() {
     System.out.println("Hello! What\'s your name?");
     final String NAME = SCANNER.nextLine();
     System.out.println("Hello" + (NAME.length() > 0 ? " " + NAME : "") + "!");
@@ -73,7 +73,7 @@ public class Week1QuizGame {
       System.out.println("I'm sorry, but the correct answer was " + CORRECT_ANSWER + ".");
     }
 
-    System.out.println("Your score is now" + score + ".");
+    System.out.println("Your score is now " + score + ".");
   }
 
   // Displays to the user the number of questions they had right and the percentage score. After displaying the score, resets the score back to 0Then asks the user if they wish to keep playing. If an invalid answer is entered, the prompt will repeat until a valid answer is submitted.
