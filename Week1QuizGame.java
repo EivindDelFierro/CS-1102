@@ -74,8 +74,8 @@ public class Week1QuizGame {
         final String QUESTION_CHOICES = questionSet[2];
 
         System.out.println(QUESTION);
-        System.out.println(QUESTION_CHOICES);
-        System.out.println("\nAnd your answer is...");
+        displayChoices(QUESTION_CHOICES);
+        System.out.print("\nAnd your answer is: ");
 
         String choice;
 
@@ -84,13 +84,25 @@ public class Week1QuizGame {
         } while (!isValidChoice(choice));
 
         if (choice.equals(CORRECT_ANSWER)) {
-            System.out.println("Correct!");
+            System.out.print("Correct! " );
             score++;
         } else {
             System.out.printf("I'm sorry, but the correct answer was %s. ", CORRECT_ANSWER);
+            System.out.println();
         }
 
-        System.out.println("Your score is now " + score + ".\n");
+        System.out.println("Your score is " + score + ".\n");
+    }
+
+    private static void displayChoices(String questionChoices) {
+        final String[] CHOICES_ARRAY = questionChoices.split("[,]");
+        int i = 0;
+
+        while (i < CHOICES_ARRAY.length) {
+            CHOICES_ARRAY[i] = CHOICES_ARRAY[i].trim();
+            System.out.println("    " + CHOICES_ARRAY[i]);
+            i++;
+        }
     }
 
     private static boolean isValidChoice(String choice) {
@@ -112,7 +124,7 @@ public class Week1QuizGame {
         final int SCORE_PERCENT = (int) ((double)score / numOfQuestions * 100);
         
         System.out.printf("You scored %d out of %d! That's %d%%!", score, numOfQuestions, SCORE_PERCENT);
-        System.out.println("\nDo you want to keep playing? Enter yes or no to continue.");
+        System.out.print("\nDo you want to keep playing? (Enter yes or no to continue): ");
 
         while (true) {
             String continueChoice = SCANNER.nextLine().toLowerCase();
