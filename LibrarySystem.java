@@ -11,15 +11,13 @@ public class LibrarySystem {
   //    quantity: Integer
   //   }
   // }
-  private static Map<String, Map<String, Object>> CATALOG = new HashMap<>();
+  private static String[] titleArray = {};
+  private static String[] authorArray = {};
+  private static int[] quantityArray = {};
+  private static int entryCount = 0;
   private static final Scanner SCANNER = new Scanner(System.in);
 
   public static void main(String[] args) {
-    runSystem();
-  }
-
-  // Function to run the library system. Calls showMainMenu and uses a do-while loop so that users can go back and forth between menu items. 
-  private static void runSystem() {
     System.out.println("Welcome to the Data Frontier's library system!");
     String menuSelection;
 
@@ -30,7 +28,7 @@ public class LibrarySystem {
       menuSelection = mainMenuSelect();
       switch (menuSelection) {
         case "a":
-          addBooks();
+          addBook();
           break;
         case "b":
           borrowBooks();
@@ -60,13 +58,13 @@ public class LibrarySystem {
 
     do {
       choice = SCANNER.nextLine().toLowerCase();
-    } while (!isChoiceValid(choice));
+    } while (!isABCD(choice));
 
     return choice;
   }
 
   // Returns a boolean value of true if the user input is either a, b, c, or d. Otherwise an error message is displayed and a boolean value of false is returned.
-  private static boolean isChoiceValid(String choice) {
+  private static boolean isABCD(String choice) {
     switch (choice) {
       case "a":
       case "b":
@@ -80,51 +78,57 @@ public class LibrarySystem {
     }
   }
 
+  private static int getIndexOfTitle (String title) {
+    final String FORMATTED_TITLE = title.trim();
+    // iterate through the array to find if the title exists;
+   int i = 0;
+   while (i < entryCount) {
+     // if the title is found return index
+     if (titleArray[i].equals(FORMATTED_TITLE))
+       return i;
+     i++;
+   }
+   return -1;
+  }
+
   // Prompts users to add books to the library catalog. If the book exists in the catalog, adds the existing value to the added books. Otherwise creates a new book entry with a quantity based on the user input.
-  private static void addBooks() {
+  private static void addBook() {
     do { // Prompt the user to enter the book title, author, and quantity.
-      System.out.print("Book author: ");
-      final String BOOK_AUTHOR = SCANNER.nextLine().trim();
-      final Object[] TITLE_AND_QUANTITY = getBooksAndQuantity();
-      final String BOOK_TITLE = TITLE_AND_QUANTITY[0].toString();
-      final Integer ADDED_QUANTITY = (Integer) TITLE_AND_QUANTITY[1];
+      final String INPUT_AUTHOR = promptForString("Book author: ");
+      final String INPUT_TITLE = promptForString("Book tile: ");
+      final int INPUT_QUANTITY = promptForValidInteger("Quantity: ");
+      final int BOOK_INDEX = getIndexOfTitle(INPUT_TITLE);
       int totalQuantity;
 
-      // If the book already exists in the library, 
-      if (CATALOG.containsKey(BOOK_TITLE)) {
-        // update quantity
-        final Map<String, Object> CATALOG_BOOK = CATALOG.get(BOOK_TITLE);
-        final Integer currentQuantity = (Integer) CATALOG_BOOK.get("quantity");
-        totalQuantity = currentQuantity + ADDED_QUANTITY;
-        CATALOG_BOOK.put("quantity", totalQuantity);
-
+      // If the book is not found add the book to the catalog, else update the quantity. Display to the user changes.
+      if (BOOK_INDEX == -1) {
+        addToCatalog(INPUT_TITLE, INPUT_AUTHOR, INPUT_QUANTITY);
+        totalQuantity = INPUT_QUANTITY;
       } else {
-        // If the book is new, add it to the library.
-        final Map<String, Object> book = new HashMap<>();
-        book.put("author", BOOK_AUTHOR);
-        book.put("quantity", ADDED_QUANTITY);
-        CATALOG.put(BOOK_TITLE, book);
-        totalQuantity = ADDED_QUANTITY;
+        // update quantity
+        totalQuantity = quantityArray[BOOK_INDEX] += INPUT_QUANTITY;
       }
-      System.out.printf("You have added %d book(s) with the title \"%s\". There are now a total of %d in stock.", ADDED_QUANTITY, BOOK_TITLE, totalQuantity);
-    } while (repeatAgain(" Do you want to add more books?"));
+      System.out.printf("You have added %d book(s) with the title \"%s\". There are now a total of %d in stock.",
+          INPUT_QUANTITY, INPUT_TITLE, totalQuantity);
+    } while (isYesOrNo(" Do you want to add more books?"));
   }
-
-  // Prompts the user for a book title and quantity. Returns an array [BOOK_TITLE, BOOK_QUANTITY]. Integer input validation done by getValidInteger function.
-  private static Object[] getBooksAndQuantity() {
-    System.out.print("Book title: ");
-    final String BOOK_TITLE = SCANNER.nextLine().trim();
-    System.out.print("Quantity: ");
-    final Integer BOOK_QUANTITY = getValidInteger("Quantity: ");
-    return new Object[]{BOOK_TITLE, BOOK_QUANTITY};
+  
+  // prompts the user based on the argument and returns the input string trimmed of whitespace
+  private static String promptForString(String prompt) {
+    System.out.println();
+    System.out.print(prompt);
+    final String INPUT = SCANNER.nextLine().trim();
+    SCANNER.nextLine();
+    return INPUT;
   }
-
+  
   // Prompts the user for an integer input. If the user input is not a valid integer, an error is displayed to the user and it prompts again. If the user inputs a valid integer, returns the value wrapped in the Integer class.
-  private static Integer getValidInteger(String prompt) {
+  private static Integer promptForValidInteger(String prompt) {
     boolean isValidInteger = false;
     Integer input = null;
     do {
       try {
+        System.out.println();
         System.out.print(prompt);
         input = Integer.valueOf(SCANNER.nextInt());
         isValidInteger = true;
@@ -137,13 +141,37 @@ public class LibrarySystem {
     return input;
   }
 
+  private static void addToCatalog(String title, String author, int quantity) {
+    entryCount++;
+    String[] newTitleArray = new String[entryCount];
+    String[] newAuthorArray = new String[entryCount];
+    int[] newQuantityArray = new int[entryCount];
+
+    int i = 0;
+
+    while (i < entryCount) {
+      newTitleArray[i] = titleArray[i];
+      newAuthorArray[i] = authorArray[i];
+      newQuantityArray[i] = quantityArray[i];
+      i++;
+    }
+    
+    newTitleArray[entryCount] = title;
+    newQuantityArray[entryCount] = quantity;
+    newAuthorArray[entryCount] = author;
+    
+    titleArray = newTitleArray;
+    quantityArray = newQuantityArray;
+    authorArray = newAuthorArray;
+  }
+
   // Returns a boolean a value only if a user inputs a valid yes or no response. Otherwise asks the user for input again.
-  private static boolean repeatAgain(String prompt) {
+  private static boolean isYesOrNo(String prompt) {
     while (true) {
-      SCANNER.nextLine();
       System.out.print(prompt);
       System.out.print(" Enter (Y)es or (N)o to continue.");
       final String input = SCANNER.nextLine().toLowerCase();
+      SCANNER.nextLine();
 
       switch (input) {
         case "y":
@@ -162,54 +190,51 @@ public class LibrarySystem {
   private static void borrowBooks() {
     do {
       // Prompt the user to enter the book title and the number of books to borrow.
-      final Object[] TITLE_AND_QUANTITY = getBooksAndQuantity();
-      final String BOOK_TITLE = TITLE_AND_QUANTITY[0].toString();
-      final int REQUESTED_AMOUNT = (int) TITLE_AND_QUANTITY[1];
+      final String INPUT_TITLE = promptForString("Book title: ");
+      final int INDEX_OF_TITLE = getIndexOfTitle(INPUT_TITLE);
 
       // Check if the requested number of books is available in the library.
-      if (CATALOG.containsKey(BOOK_TITLE)) {
-        final Map<String, Object> CATALOG_BOOK = CATALOG.get(BOOK_TITLE);
-        final Integer CURRENT_STOCK = (Integer) CATALOG_BOOK.get("quantity");
-        if ((Integer) CURRENT_STOCK > REQUESTED_AMOUNT) {
+      if (INDEX_OF_TITLE > 0) {
+        int booksInStock = quantityArray[INDEX_OF_TITLE];
+        System.out.println("There are currently " + booksInStock + " books called " + INDEX_OF_TITLE + " in stock.");
+        final int REQUESTED_AMOUNT = promptForValidInteger("Quantity: ");
+        if (booksInStock > REQUESTED_AMOUNT) {
           // If the books are available, update the quantity and display a success message.
-          final Integer REMAINING_BOOKS = CURRENT_STOCK - REQUESTED_AMOUNT;
-          CATALOG_BOOK.put("quantity", REMAINING_BOOKS);
-          System.out.printf("Request Successful. There are %d book(s) with the title \"%s\" left.", REMAINING_BOOKS,
-              BOOK_TITLE);
+          quantityArray[INDEX_OF_TITLE] = booksInStock -= REQUESTED_AMOUNT;
+          System.out.printf("Request Successful. There are %d book(s) named \"%s\" left.", booksInStock, INPUT_TITLE);
         } else {
           // If not, display an error message.
           System.out.printf(
               "Insufficient quanity found in stock. There are %d book(s) with the title \"%s\"currently in stock. ",
-              CATALOG_BOOK.get("quantity"), BOOK_TITLE);
+              quantityArray[INDEX_OF_TITLE], INPUT_TITLE);
         }
 
       } else {
         System.out.println("Book not found in catalog.");
       }
-    } while (repeatAgain(" Do you want to borrow other books?"));
+    } while (isYesOrNo(" Do you want to borrow other books?"));
   }
 
   // Prompts the user for a book title and amount to be returned. If the book title is not found in the catalog, displays an error message. Otherwise, updates the catalog and displays the amount now in stock.
   private static void returnBooks() {
     do {
       // Prompt the user to enter the book title and the number of books to return.
-      final Object[] TITLE_AND_QUANTITY = getBooksAndQuantity();
-      final String BOOK_TITLE = TITLE_AND_QUANTITY[0].toString();
-      final Integer QUANTITY_RETURNED = (Integer) TITLE_AND_QUANTITY[1];
+      final String INPUT_TITLE = promptForString("Title: ");
+      final int INDEX_OF_TITLE = getIndexOfTitle(INPUT_TITLE);
 
       // Check if the books being returned belong to the library system.
-      if (CATALOG.containsKey(BOOK_TITLE)) {
+      if (INDEX_OF_TITLE > 0) {
         // If they do, update the quantity and display a success message.
-        final Map<String, Object> CATALOG_BOOK = CATALOG.get(BOOK_TITLE);
-        final Integer EXISTING_QUANTITY = (Integer) CATALOG_BOOK.get("quantity");
-        final Integer TOTAL_IN_STOCK = EXISTING_QUANTITY + QUANTITY_RETURNED;
-        CATALOG_BOOK.put("quantity", TOTAL_IN_STOCK);
-        // If not, display an error message.
-        System.out.printf("You have successfully returned %d book(s) with the title %s. There are now %d in stock. Thank you.", QUANTITY_RETURNED, BOOK_TITLE, TOTAL_IN_STOCK);
+        final int INPUT_QUANTITY = promptForValidInteger("Quantity: ");
+
+        quantityArray[INDEX_OF_TITLE] += INPUT_QUANTITY;
+        
+        System.out.printf("You have successfully returned %d book(s) with the title %s. There are now %d in stock. Thank you.", INPUT_QUANTITY, INPUT_TITLE, quantityArray[INDEX_OF_TITLE]);
       } else {
-        System.out.printf("The book \"%s\" was not found in the catalog. It may belong to a different library.", BOOK_TITLE);
+        // If not, display an error message.
+        System.out.printf("The book \"%s\" was not found in the catalog. It may belong to a different library.", INPUT_TITLE);
       }
-    } while (repeatAgain(" Do you want to return more books?"));
+    } while (isYesOrNo(" Do you want to return more books?"));
   }
 
   private static void exit() {
