@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LibrarySystem {
-  // Create a catalog to store books and their count. Utilize Integer wrapper as because Java generics do not work with primitive types. Catalog is organized as follows:
+  // Create a catalog to store books and their count. Utilize class wrappers as because Java generics do not work with primitive types. Catalog is organized as follows:
   // {
   //   book_title: {
   //    author: String,
@@ -43,7 +43,7 @@ public class LibrarySystem {
     exit();
   }
 
-  // Function to display main menu choices to the user an easy to read way.
+  // Displays main menu choices to the user.
   private static void showMainMenu() {
     final String[] MAIN_MENU_CHOICES = { "A. Add Books", "B. Borrow Books", "C. Return Books", "D. Exit" };
     int i = 0;
@@ -54,7 +54,7 @@ public class LibrarySystem {
     }
   }
 
-  // Function that uses a do-while loop and isChoiceValid for input validation.
+  // Returns a menu selection option if successfully validated by isChoiceValid.
   private static String mainMenuSelect() {
     String choice;
 
@@ -65,7 +65,7 @@ public class LibrarySystem {
     return choice;
   }
 
-  // Function that returns a boolean value of true if the user input is either a, b, c, or d. Otherwise an error message is displayed and a boolean value of false is returned..
+  // Returns a boolean value of true if the user input is either a, b, c, or d. Otherwise an error message is displayed and a boolean value of false is returned.
   private static boolean isChoiceValid(String choice) {
     switch (choice) {
       case "a":
@@ -80,7 +80,7 @@ public class LibrarySystem {
     }
   }
 
-  // Function that allows users to add books to the library catalog
+  // Prompts users to add books to the library catalog. If the book exists in the catalog, adds the existing value to the added books. Otherwise creates a new book entry with a quantity based on the user input.
   private static void addBooks() {
     do { // Prompt the user to enter the book title, author, and quantity.
       System.out.print("Book author: ");
@@ -110,7 +110,7 @@ public class LibrarySystem {
     } while (repeatAgain(" Do you want to add more books?"));
   }
 
-  // Function to prompt user for a book title and quantity. Returns an array [BOOK_TITLE, BOOK_QUANTITY] a Integer input validation done by getValidInteger
+  // Prompts the user for a book title and quantity. Returns an array [BOOK_TITLE, BOOK_QUANTITY]. Integer input validation done by getValidInteger function.
   private static Object[] getBooksAndQuantity() {
     System.out.print("Book title: ");
     final String BOOK_TITLE = SCANNER.nextLine().trim();
@@ -119,7 +119,7 @@ public class LibrarySystem {
     return new Object[]{BOOK_TITLE, BOOK_QUANTITY};
   }
 
-  // Function that displays a prompt on call, and accepts user input. If the user input is not a valid integer, displays error to user and prompts again. If the user inputs a valid integer, returns the value wrapped in the Integer class.
+  // Prompts the user for an integer input. If the user input is not a valid integer, an error is displayed to the user and it prompts again. If the user inputs a valid integer, returns the value wrapped in the Integer class.
   private static Integer getValidInteger(String prompt) {
     boolean isValidInteger = false;
     Integer input = null;
@@ -158,7 +158,7 @@ public class LibrarySystem {
     }
   }
 
-  // Function that allows user to borrow books. If the requested amount is more than in stock, displays an error message. Otherwise returns a confirmation message with the number of books left.
+  // Prompts the user for a book title and amount to be borrowed. If the requested amount is more than in stock, displays an error message. Otherwise returns a confirmation message with the number of books left.
   private static void borrowBooks() {
     do {
       // Prompt the user to enter the book title and the number of books to borrow.
@@ -189,7 +189,7 @@ public class LibrarySystem {
     } while (repeatAgain(" Do you want to borrow other books?"));
   }
 
-  // Function that allows uers to return books. If the book title is not found in the catalog, displays an error message. Otherwise, updates the catalog and displays the amount now in stock.
+  // Prompts the user for a book title and amount to be returned. If the book title is not found in the catalog, displays an error message. Otherwise, updates the catalog and displays the amount now in stock.
   private static void returnBooks() {
     do {
       // Prompt the user to enter the book title and the number of books to return.
