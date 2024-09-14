@@ -1,7 +1,7 @@
 // import the scanner module module needed to receive user input from System.in.
 import java.util.Scanner;
 
-public class Week1QuizGame {
+public class QuizGame {
     // Initialize a new scanner class object for accepting user input and the score variable for keeping track of the score.
     private static final Scanner SCANNER = new Scanner(System.in);
     private static int score = 0;
