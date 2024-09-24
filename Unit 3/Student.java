@@ -15,6 +15,7 @@ public class Student {
   private static final String AGE = "AGE";
   private static final String GRADE = "GRADE";
 
+  // Define Student constructor
   public Student(String firstName, String lastName, String id, int age, double grade) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -61,7 +62,7 @@ public class Student {
 
   // accesses
   public Object getProperty(String property) {
-    switch (property.toUpperCase()) {
+    switch (property) {
       case FIRST_NAME:
         return (String) this.firstName;
       case LAST_NAME:
