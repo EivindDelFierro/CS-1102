@@ -1,7 +1,7 @@
 import java.util.Scanner; // Import SCANNER for reading user input.
 
 public class StudentRecords {
-  // constant global variable declarations  
+  // constant global variable initializations  
   private static final Scanner SCANNER = new Scanner(System.in);
   private static final String FIRST_NAME = "FIRSTNAME";
   private static final String LAST_NAME = "LASTNAME";
@@ -9,11 +9,14 @@ public class StudentRecords {
   private static final String AGE = "AGE";
   private static final String GRADE = "GRADE";
 
+  // constant variable initializations for student list/directory
   private static Student[] studentList = {};
   private static int studentCount = 0;
 
     public static void main(String[] arg) {
+    introduction();
     mainMenu();
+    exit();
   }
 
   // Subroutine to handle Data Storage
@@ -27,21 +30,9 @@ public class StudentRecords {
     final int age = promptForValidInt("Enter the student's age");
     final double grade = promptForValidDouble("Enter the student's grade");
     final Student student = new Student(firstName, lastName, id, age, grade);
+
+    updateStudentList(student);
   }
-  
-
-  // updates studentList array with a student object that is passed in
-  private static void updatestudentList (Student student) {
-    studentCount++;
-    Student[] newStudentList = new Student[studentCount];
-
-    for (int i = 0; i < studentCount; i++) {
-      newStudentList[i] = studentList[i];
-    }
-
-    newStudentList[studentCount-1] = student;
-  }
-
 
   // Subroutine to handle Student Management
 
@@ -52,16 +43,53 @@ public class StudentRecords {
       final String UPDATE_STUDENT_MENU_OPTION = "2.  Update an existing student's records";
       final String VIEW_ALL_STUDENTS_OPTION = "3. View all students and records in database";
       final String EXIT_OPTION = "4. Exit System";
-      final String[] OPTIONS = {ADD_STUDENT_MENU_OPTION, UPDATE_STUDENT_MENU_OPTION, VIEW_ALL_STUDENTS_OPTION, EXIT_OPTION};
+      final String[] OPTIONS = { ADD_STUDENT_MENU_OPTION, UPDATE_STUDENT_MENU_OPTION, VIEW_ALL_STUDENTS_OPTION, EXIT_OPTION };
 
-      for (int i = 0; i < OPTIONS.length; i++) {
-        System.out.println("    " + OPTIONS[i]);
+      menuLoop:
+      while (true) {
+        System.out.println("");
+        for (int i = 0; i < OPTIONS.length; i++) {
+          System.out.println("    " + OPTIONS[i]);
+        }
+
+        switch (returnValidMenuSelection()){
+          case 1: 
+            addStudent();
+            break;
+          case 2:
+            break;
+          case 3:
+            break;
+          case 4:
+            break menuLoop;
+        }
       }
     }
 
   // Helper functions
-  private static int isValidMenuSelection() {
-    return 0;
+  // updates studentList array with a student object that is passed in
+  private static void updateStudentList (Student student) {
+    studentCount++;
+    Student[] newStudentList = new Student[studentCount];
+
+    for (int i = 0; i < studentCount; i++) {
+      newStudentList[i] = studentList[i];
+    }
+
+    newStudentList[studentCount-1] = student;
+    studentList = newStudentList;
+  }
+  
+
+  private static int returnValidMenuSelection() {
+    while (true) {
+      final int input = promptForValidInt("Select Menu Option (1,2,3,4)");
+      if (0 < input && input < 5) {
+        return input;
+      } else {
+        System.out.println("Please enter a number between 1 and 4.");
+      }
+    }
   }
 
   private static String promptForValidString(String prompt) {
