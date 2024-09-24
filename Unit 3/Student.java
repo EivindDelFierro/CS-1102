@@ -24,43 +24,54 @@ public class Student {
     this.grade = grade;
   }
 
-  // sets a property of a Student class object and returns the updated object
-  public Student setProperty(String property, Object value) {
-    boolean isValidProperty = true;
-    Object oldValue = null;
+  // sets a property of a Student class object and returns the updated object.
+  // Utilized method overloading to avoid type casting errors
+  public Student setProperty(String property, String value) {
     switch (property.toUpperCase()) {
       case FIRST_NAME:
-        oldValue = this.firstName;
-        this.firstName = (String) value;
+        String oldFirstName = this.firstName;
+        this.firstName = value;
+        System.out.printf("The property %s has been updated from %s to %s%n", property, oldFirstName, value);
         break;
       case LAST_NAME:
-        oldValue = this.lastName;
-        this.lastName = (String) value;
+        String oldLastName = this.lastName;
+        this.lastName = value;
+        System.out.printf("The property %s has been updated from %s to %s%n", property, oldLastName, value);
         break;
       case ID:
-        oldValue = this.id;
-        this.id = (String) value;
-        break;
-      case AGE:
-        oldValue = this.age;
-        this.age = (Integer) value;
-        break;
-      case GRADE:
-        oldValue = this.grade;
-        this.grade = (Double) value;
+        String oldId = this.id;
+        this.id = value;
+        System.out.printf("The property %s has been updated from %s to %s%n", property, oldId, value);
         break;
       default:
-        isValidProperty = false;
-    }
-    if (isValidProperty) {
-      System.out.printf("The property %s has been updated from %s to %s", property, oldValue, value);
-    } else {
-      System.out.printf("The property %s was not found and cannot be updated.", property);
+        throw new IllegalArgumentException("Invalid String property: " + property);
     }
     return this;
   }
 
-  // accesses
+  public Student setProperty(String property, Integer value) {
+    if (property.toUpperCase().equals(AGE)) {
+      Integer oldAge = this.age;
+      this.age = value;
+      System.out.printf("The property %s has been updated from %s to %s%n", property, oldAge, value);
+    } else {
+      throw new IllegalArgumentException("Invalid Integer property: " + property);
+    }
+    return this;
+  }
+
+  public Student setProperty(String property, Double value) {
+    if (property.toUpperCase().equals(GRADE)) {
+      Double oldGrade = this.grade;
+      this.grade = value;
+      System.out.printf("The property %s has been updated from %s to %s%n", property, oldGrade, value);
+    } else {
+      throw new IllegalArgumentException("Invalid Double property: " + property);
+    }
+    return this;
+  }
+
+  // getter method to access values in instance object
   public Object getProperty(String property) {
     switch (property) {
       case FIRST_NAME:
