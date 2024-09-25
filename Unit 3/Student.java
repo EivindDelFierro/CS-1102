@@ -9,8 +9,8 @@ public class Student {
   private Double grade;
 
   // constant global variable declarations
-  private static final String FIRST_NAME = "FIRSTNAME";
-  private static final String LAST_NAME = "LASTNAME";
+  private static final String FIRST_NAME = "FIRST NAME";
+  private static final String LAST_NAME = "LAST NAME";
   private static final String ID = "ID";
   private static final String AGE = "AGE";
   private static final String GRADE = "GRADE";
@@ -71,22 +71,32 @@ public class Student {
     return this;
   }
 
-  // getter method to access values in instance object
-  public Object getProperty(String property) {
-    switch (property) {
-      case FIRST_NAME:
-        return (String) this.firstName;
-      case LAST_NAME:
-        return (String) this.lastName;
-      case ID:
-        return (String) this.id;
-      case AGE:
-        return (Integer) this.age;
-      case GRADE:
-        return (Double) this.grade;
-    }
-    System.out.printf("The property %s was not found.", property);
-    return null;
+  // getter methods to access values in instance object
+  public String getStringProperty(String property) {
+    switch (property.toUpperCase()) {
+        case FIRST_NAME: 
+          return this.firstName;
+        case LAST_NAME: 
+          return this.lastName;
+        case ID: 
+          return this.id;
+        default:
+            throw new IllegalArgumentException("Invalid String property: " + property);
+      }
+  }
+
+  public Integer getIntegerProperty(String property) {
+      if (property.toUpperCase().equals(AGE)) {
+          return this.age;
+      }
+      throw new IllegalArgumentException("Invalid Integer property: " + property);
+  }
+
+  public Double getDoubleProperty(String property) {
+      if (property.toUpperCase().equals(GRADE)) {
+          return this.grade;
+      }
+      throw new IllegalArgumentException("Invalid Double property: " + property);
   }
 
 }
