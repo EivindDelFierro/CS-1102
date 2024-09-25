@@ -110,13 +110,13 @@ public class StudentRecords {
           case FIRST_NAME:
           case LAST_NAME:
           case ID:
-            System.out.printf("%s: %s", PROPERTY, CURR_STUDENT.getStringProperty(PROPERTY));
+            System.out.printf("%s: %s\n", PROPERTY, CURR_STUDENT.getStringProperty(PROPERTY));
             break;
           case AGE:
-            System.out.printf("%s: %i", PROPERTY, CURR_STUDENT.getIntegerProperty(PROPERTY));
+            System.out.printf("%s: %i\n", PROPERTY, CURR_STUDENT.getIntegerProperty(PROPERTY));
             break;
           case GRADE:
-            System.out.printf("%s: %d", PROPERTY, CURR_STUDENT.getDoubleProperty(PROPERTY));
+            System.out.printf("%s: %d\n", PROPERTY, CURR_STUDENT.getDoubleProperty(PROPERTY));
             break;
         }
       }
@@ -148,6 +148,7 @@ public class StudentRecords {
             updateStudentInformation();
             break;
           case 3:
+            viewStudentInformation();
             break;
           default:
             break menuLoop;
