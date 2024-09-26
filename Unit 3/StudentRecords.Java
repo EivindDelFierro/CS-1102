@@ -106,6 +106,7 @@ public class StudentRecords {
   // Subroutine that displays update options and allows the user to update an
   // existing student.
   private static void updateStudentInformationMenu(Student student) {
+    // Define menu options for updating student information
     final String UPDATE_FIRST_NAME = "A. Update student's first name";
     final String UPDATE_LAST_NAME = "B. Update student's last name";
     final String UPDATE_ID = "C. Update student's ID";
@@ -114,30 +115,43 @@ public class StudentRecords {
     final String EXIT_UPDATE = "F. Return to main menu";
     final String[] OPTIONS = { UPDATE_FIRST_NAME, UPDATE_LAST_NAME, UPDATE_ID, UPDATE_AGE, UPDATE_GRADE, EXIT_UPDATE };
 
+    // Main loop for the update menu
     menuLoop: while (true) {
+      // Display the update options to the user
       showMenuOptions("Provided below are options to update a student's information.", OPTIONS);
 
+      // Get the user's menu selection
       switch (returnValidMenuSelection(6)) {
         case 'A':
+          // Update first name
           student.setProperty(FIRST_NAME, promptForValidInput(FIRST_NAME_PROMPT, STRING_TYPE).toString());
           break;
         case 'B':
+          // Update last name
           student.setProperty(LAST_NAME, promptForValidInput(LAST_NAME_PROMPT, STRING_TYPE).toString());
           break;
         case 'C':
+          // Update student ID
           student.setProperty(ID, promptForValidInput(ID_PROMPT, STRING_TYPE).toString());
           break;
         case 'D':
+          // Update age, ensuring it's a valid integer
           student.setProperty(AGE, getValidAge());
           break;
         case 'E':
+          // Update grade, ensuring it's a valid double between 0 and 100
           student.setProperty(GRADE, getValidGrade());
           break;
         default:
+          // Exit the update menu
           break menuLoop;
       }
+      // Confirm successful update to the user
       System.out.println("Student updated successfully. " + RETURN_TO_MAIN_MENU_MESSAGE);
     }
+    // Note: The loop continues, allowing multiple updates unless the user chooses
+    // to exit
+
   }
 
   // Prompts user for a student ID and searches for the specific student. If
@@ -208,13 +222,15 @@ public class StudentRecords {
   // student with a matching ID. If the ID is found, returns the index of the
   // student, otherwise returns -1 if not found.
   private static int searchByStudentID(String INPUT_ID) {
+    // Iterate through the studentList array
     for (int i = 0; i < studentList.length; i++) {
       final Student CURR_STUDENT = studentList[i];
-      if (INPUT_ID.equals(CURR_STUDENT.getStringProperty(ID).toUpperCase())) {
-        return i;
+      // Compare the input ID with the current student's ID
+      if (INPUT_ID.toUpperCase().equals(CURR_STUDENT.getStringProperty(ID).toUpperCase())) {
+        return i; // Student found, return the index
       }
     }
-    return -1;
+    return -1; // Student not found, return -1
   }
 
   // Subroutine that accepts a String, displayText, and an array of strings,
@@ -230,14 +246,20 @@ public class StudentRecords {
   // Subroutine that accepts a Student object and then increments studentCount and
   // replaces studentList with a new array that includes the new Student object.
   private static void updateStudentList(Student student) {
-    studentCount++;
+    studentCount++; // Increment the total number of students
+
+    // Create a new array with increased size
     Student[] newStudentList = new Student[studentCount];
 
+    // Copy existing students to the new array
     for (int i = 0; i < studentCount - 1; i++) {
       newStudentList[i] = studentList[i];
     }
 
+    // Add the new student to the end of the new array
     newStudentList[studentCount - 1] = student;
+
+    // Replace the old studentList with the new one
     studentList = newStudentList;
   }
 
@@ -247,10 +269,12 @@ public class StudentRecords {
   // error. If the user selects a valid option within the range, returns input
   // char.
   private static char returnValidMenuSelection(int maxOptions) {
+    // Construct the prompt string with available options
     String prompt = "Select Menu Option (";
     char start = 'A';
     char end = (char) ('A' + maxOptions - 1);
 
+    // Build the prompt string with comma-separated options (e.g., "A, B, C")
     for (int i = 0; i < maxOptions - 1; i++) {
       char letter = (char) ('A' + i);
       prompt += letter + ", ";
@@ -261,25 +285,29 @@ public class StudentRecords {
     boolean inputIsASingleChar = false;
     char input = '\0';
 
-    // Loop that prompts user to select a valid menu option
+    // Main loop for getting and validating user input
     while (true) {
+      // Get user input and convert to uppercase
       final String USER_INPUT = promptForValidInput(prompt, STRING_TYPE).toString().toUpperCase();
 
-      // check if user input is only a single character
+      // Validate that the input is a single character
       if (USER_INPUT.length() == 1) {
         inputIsASingleChar = true;
         input = USER_INPUT.charAt(0);
 
-        // check if user input is within acceptable range
+        // Check if the input is within the valid range of options
         if (input >= start && input <= end) {
-          return input;
+          return input; // Valid input, return the selected option
         } else {
+          // Input is a single character but out of valid range
           System.out.printf("Please enter a letter between \"%c\" through \"%c.\"\n", start, end);
         }
       } else {
+        // Input is not a single character
         System.out.printf("\nData Type Error: Please enter a single alphabetical character.\n");
       }
     }
+    // If we reach here, the input was invalid, so the loop continues
   }
 
   // Subroutine that accepts a string, prompt, that will be displayed as a prompt
@@ -289,27 +317,33 @@ public class StudentRecords {
   // then returns an object based on the type argument.
   private static Object promptForValidInput(String prompt, String type) {
     do {
+      // Display prompt and get user input
       System.out.print(prompt + ": ");
       String input = SCANNER.nextLine().trim();
+
+      // Check for empty input
       if (input.isEmpty()) {
         System.out.printf("\nInput Error: Please enter a non-empty value.\n");
         continue;
       }
 
       try {
+        // Attempt to parse input based on expected type
         switch (type) {
           case INT_TYPE:
-            return Integer.parseInt(input);
+            return Integer.parseInt(input); // Parse as integer
           case DOUBLE_TYPE:
-            return Double.parseDouble(input);
+            return Double.parseDouble(input); // Parse as double
           default:
-            return input;
+            return input; // Return as string for any other type
         }
       } catch (NumberFormatException e) {
+        // Handle parsing errors for numeric types
         System.out.println("\nData Type Error: Please enter a valid "
             + (type.equals(INT_TYPE) ? "whole number." : "number."));
       }
-    } while (true);
+    } while (true); // Continue prompting until valid input is received
+
   }
 
   // Subroutine that prompts the user for a grade. If grade is between 0 to 100,
