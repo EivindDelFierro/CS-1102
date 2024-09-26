@@ -1,14 +1,24 @@
-// Student class for creating instance objects of students
+/**
+*  Student Class
+*  This class represents individual student records. It contains:
+*  1. Private instance vraribles for student information including their:
+*    - First name
+*    - Last name
+*    - Student ID
+*    - Age
+*    - Grade
+*  2. Getter and setter methods to access and modify student information
+*/
 
 public class Student {
-  // global variable declarations
+  // Global variable declarations
   private String firstName;
   private String lastName;
   private String id;
   private Integer age;
   private Double grade;
 
-  // constant global variable declarations
+  // Constant global variable declarations
   private static final String FIRST_NAME = "FIRST NAME";
   private static final String LAST_NAME = "LAST NAME";
   private static final String ID = "ID";
@@ -24,24 +34,24 @@ public class Student {
     this.grade = grade;
   }
 
-  // sets a property of a Student class object and returns the updated object.
-  // Utilized method overloading to avoid type casting errors
+  // Setter and Getter methods utilizing function overloading to avoid type casting errors
+  // Setter method to change Student instance properties with a string value
   public Student setProperty(String property, String value) {
     switch (property.toUpperCase()) {
       case FIRST_NAME:
         String oldFirstName = this.firstName;
         this.firstName = value;
-        System.out.printf("The property %s has been updated from %s to %s%n", property, oldFirstName, value);
+        System.out.printf("\nThe field value for %s has been updated from \"%s\" to \"%s\"%n", property, oldFirstName, value);
         break;
       case LAST_NAME:
         String oldLastName = this.lastName;
         this.lastName = value;
-        System.out.printf("The property %s has been updated from %s to %s%n", property, oldLastName, value);
+        System.out.printf("\nThe field value for %s has been updated from \"%s\" to \"%s\"%n", property, oldLastName, value);
         break;
       case ID:
         String oldId = this.id;
         this.id = value;
-        System.out.printf("The property %s has been updated from %s to %s%n", property, oldId, value);
+        System.out.printf("\nThe field value for %s has been updated from \"%s\" to \"%s\"%n", property, oldId, value);
         break;
       default:
         throw new IllegalArgumentException("Invalid String property: " + property);
@@ -49,29 +59,31 @@ public class Student {
     return this;
   }
 
+  // Setter method to change Student instance properties with an integer value
   public Student setProperty(String property, Integer value) {
     if (property.toUpperCase().equals(AGE)) {
       Integer oldAge = this.age;
       this.age = value;
-      System.out.printf("The property %s has been updated from %s to %s%n", property, oldAge, value);
+      System.out.printf("\nThe field value for %s has been updated from \"%s\" to \"%s\"%n", property, oldAge, value);
     } else {
       throw new IllegalArgumentException("Invalid Integer property: " + property);
     }
     return this;
   }
 
+  // Setter method to change Student instance properties with a double value
   public Student setProperty(String property, Double value) {
     if (property.toUpperCase().equals(GRADE)) {
       Double oldGrade = this.grade;
       this.grade = value;
-      System.out.printf("The property %s has been updated from %s to %s%n", property, oldGrade, value);
+      System.out.printf("\nThe field value for %s has been updated from \"%s\" to \"%s\"%n", property, oldGrade, value);
     } else {
       throw new IllegalArgumentException("Invalid Double property: " + property);
     }
     return this;
   }
 
-  // getter methods to access values in instance object
+  // Getter method to access string values in instance object
   public String getStringProperty(String property) {
     switch (property.toUpperCase()) {
         case FIRST_NAME: 
@@ -85,6 +97,7 @@ public class Student {
       }
   }
 
+  // Getter method to access integer values in instance object
   public Integer getIntegerProperty(String property) {
       if (property.toUpperCase().equals(AGE)) {
           return this.age;
@@ -92,6 +105,7 @@ public class Student {
       throw new IllegalArgumentException("Invalid Integer property: " + property);
   }
 
+  // Getter method to access double values in instance object
   public Double getDoubleProperty(String property) {
       if (property.toUpperCase().equals(GRADE)) {
           return this.grade;
