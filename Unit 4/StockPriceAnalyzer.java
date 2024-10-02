@@ -15,7 +15,7 @@ public class StockPriceAnalyzer {
     final StockPrices PRICES = new StockPrices();
 
     // Initialize menu options
-    final String[] MENU_OPTION_PROMPTS = new String[]{"Get the average stock price", "Get the max stock price", "Get the frequency a price occurs"};
+    final String[] MENU_OPTION_PROMPTS = new String[]{"Get the average stock price", "Get the max stock price", "Get the frequency a price occurs", "Get the cumulative sum of all stock prices"};
 
     // Create a new MenuInterface based on the menu options
     final MenuInterface MAIN_MENU = new MenuInterface(MENU_OPTION_PROMPTS);
@@ -27,10 +27,10 @@ public class StockPriceAnalyzer {
     while (selection != MENU_OPTION_PROMPTS.length + 1) {
       switch (selection) {
         case 1: // selection case for determining the average stock price
-          System.out.printf("\nThe average stock price is $%.2f\n",PRICES.getAvgStockPrice());
+          System.out.printf("\nThe average stock price is $%.2f\n",PRICES.calculateAveragePrice());
           break;
         case 2: // selection case for determining the max stock price
-          System.out.printf("\nThe max stock price is $%.2f\n", PRICES.getMaxStockPrice());
+          System.out.printf("\nThe max stock price is $%.2f\n", PRICES.findMaximumPrice());
           break;
         case 3: // selection case for finding the frequency a price occurs within the prices
           double userInput;
@@ -48,8 +48,11 @@ public class StockPriceAnalyzer {
             }
           } while (true);
 
-          int result = PRICES.getFrequencyOfPrice(userInput);
+          int result = PRICES.countOccurrences(userInput);
           System.out.printf("\nThe price $%.2f occurs %d times\n",userInput, result);
+          break;
+        case 4: // selection case for finding the cumulative sum of all stocks within the prices.
+          System.out.printf("\nThe cumulative sum of the stock prices is $%.2f\n", PRICES.computeCumulativeSum());
           break;
         default: // for selections that are not within the menu options
           System.out.println("Please select a valid option from the menu choices.");

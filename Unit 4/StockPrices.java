@@ -51,18 +51,21 @@ public class StockPrices {
   }
 
   // Instance method returning the average stock price calculated from the provided stock prices as a double.
-  public double getAvgStockPrice() {
-    return StockCalculator.calculateAverageStockPrice(this.prices);
+  public double calculateAveragePrice() {
+    return StockCalculator.calculateAveragePrice(this.prices);
   }
   
   // Instance method returning the maximum stock price from the provided stock prices as a double.
-  public double getMaxStockPrice() {
-    return StockCalculator.findMaxStockPrice(this.prices);
+  public double findMaximumPrice() {
+    return StockCalculator.findMaximumPrice(this.prices);
   }
 
   // Instance method returning the frequency a price occurs within the provided stock prices as an integer.
-  public int getFrequencyOfPrice(double priceToFind) {
-    return StockCalculator.findFrequencyOfPrice(this.prices, priceToFind);
+  public int countOccurrences(double priceToFind) {
+    return StockCalculator.countOccurrences(this.prices, priceToFind);
   }
 
+  public double computeCumulativeSum() {
+    return StockCalculator.computeCumulativeSum(this.prices);
+  }
 }

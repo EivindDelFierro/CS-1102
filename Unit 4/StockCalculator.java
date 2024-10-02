@@ -1,8 +1,11 @@
-import java.util.InputMismatchException;
-import java.util.Scanner;
+/**
+ * StockCalculator Class
+ * Public methods for performing various calculations on double[] data types (e.g. StockPrices)
+ */
 
+import java.util.InputMismatchException;
 public class StockCalculator {
-  public static double calculateAverageStockPrice(double[] priceArray) {
+  public static double calculateAveragePrice(double[] priceArray) {
     double total = 0;
     int count = 0;
 
@@ -14,7 +17,7 @@ public class StockCalculator {
     return total / count;
   }
 
-  public static double findMaxStockPrice(double[] priceArray) {
+  public static double findMaximumPrice(double[] priceArray) {
     if (priceArray.length == 0) return 0;
     double max = priceArray[0];
 
@@ -28,7 +31,7 @@ public class StockCalculator {
     return max;
   }
 
-  public static int findFrequencyOfPrice(double[] priceArray, double priceToFind) {
+  public static int countOccurrences(double[] priceArray, double priceToFind) {
     int total = 0;
     
     try {
@@ -38,7 +41,7 @@ public class StockCalculator {
           total += 1;
         }
       }
-      
+
     } catch (InputMismatchException e) {
       System.out.println(e);
     }
@@ -46,7 +49,7 @@ public class StockCalculator {
     return total;
   }
 
-  public static double calculateSumOfStockPrices(double[] priceArray) {
+  public static double computeCumulativeSum(double[] priceArray) {
     double sum = 0;
 
     for (var price : priceArray) {
