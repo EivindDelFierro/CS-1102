@@ -23,6 +23,7 @@ public class MenuInterface {
 
   // Displays the menu options
   public void showMenuOptions() {
+    System.out.println();
     for (int i = 0; i < this.options.length; i++) {
       System.out.printf("     %d: %s\n", i + 1, options[i]);
     }
@@ -43,12 +44,10 @@ public class MenuInterface {
           return selection;
         } else {
           System.out.printf("Error: You must select an option from 1 to %d\n", this.options.length);
-          SCANNER.next();
         }
 
       } catch (InputMismatchException e) {
         System.out.println("InputMismatchException: Please enter only numbers.");
-        SCANNER.next();
       }
     } while (true);    
   }
