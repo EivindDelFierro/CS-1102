@@ -108,21 +108,6 @@ public class StockPrices {
    * @return An ArrayList of Float values containing the cumulative sum at each element
    */
   public ArrayList<Float> computeCumulativeSum(int dayIndex) {
-    return StockCalculator.computeCumulativeSum(convertPriceToArrayList(dayIndex));
-  }
-
-  /**
-   * Subroutine that converts an array of prices to an ArrayList
-   * @param dayIndex Index of an array of prices to evaluate
-   * @return An ArrayList of Float values containing the prices of a stock on a given day
-   */
-  private ArrayList<Float> convertPriceToArrayList(int dayIndex) {
-    final ArrayList<Float> floatArrayList = new ArrayList<>();
-
-    for (float price : this.prices[dayIndex]) {
-        floatArrayList.add(price);
-    }
-
-    return floatArrayList;
+    return StockCalculator.computeCumulativeSum(StockCalculator.convertArrayToArrayList(this.prices[dayIndex]));
   }
 }
