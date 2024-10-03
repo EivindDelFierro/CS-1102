@@ -1,6 +1,7 @@
 /**
  * MenuInterface Class
- * Reusable menu system
+ * Provides a reusable menu system for command-line interfaces.
+ * Allows for the creation of a menu with customizable options and handles user input for menu selection.
  */
 
 import java.util.Scanner;
@@ -31,17 +32,22 @@ public class MenuInterface {
     System.out.printf("     %d: Exit\n", this.options.length + 1);
   }
 
-  // Prompts the user to select a menu option
+  /**
+   * Prompts the user to select a menu option
+   * @return A valid menu selection as an integer
+   */
+
   public int selectMenuOption() {
     System.out.printf("Select an option above or enter %d to exit\n", this.options.length + 1);
-    System.out.print("Input: ");
 
-    do {
+    // loop to validate that input is valid for the current menu
+    while (true) {
       try {
-        final int selection = SCANNER.nextInt();
+        System.out.print("Input: ");
+        final int SELECTION = SCANNER.nextInt();
 
-        if (selection > 0 && selection <= this.options.length + 1) {
-          return selection;
+        if (SELECTION > 0 && SELECTION <= this.options.length + 1) {
+          return SELECTION;
         } else {
           System.out.printf("Error: You must select an option from 1 to %d\n", this.options.length);
         }
@@ -49,6 +55,6 @@ public class MenuInterface {
       } catch (InputMismatchException e) {
         System.out.println("InputMismatchException: Please enter only numbers.");
       }
-    } while (true);    
+    }   
   }
 }

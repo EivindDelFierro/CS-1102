@@ -5,18 +5,18 @@
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.InputMismatchException;
-
 public class StockPrices {
-  double[][] prices;
-  int length = 0;
+  float[][] prices;
   
   public StockPrices() {
       this.prices = inputPrices();
   }
 
-  // Prompts the user to input stock prices and returns an array of double data-type values.
-  private static double[][] inputPrices() {
+  /**
+   * subroutine that prompts the user to input stock prices
+   * @return An array of double data-type values
+   */
+  private static float[][] inputPrices() {
     final Scanner SCANNER = SingletonScanner.getScanner();
 
     // prompt user to enter inputs
@@ -35,38 +35,37 @@ public class StockPrices {
           System.out.println("Please enter at least 1 day.");
         } else {
           System.out.println("Please enter a number corresponding to the number of days of prices to store.");
-          SCANNER.next(); // clear scanner buffer 
         }
       }
     } while (days == 0);
 
     // initialize chart prices based on number of days
-    double[][] chartPrices = new double[days][];
+    float[][] chartPrices = new float[days][];
 
     // Receive prices for each day
     for (int day = 1; day <= days; day++) {
       final int dayIndex = day-1;
       System.out.printf("\nEnter the stock prices for day %d. Input only one price at a time. Enter a non-numerical value to terminate the input and continue.\n", day);
-      ArrayList<Double> inputPrices = new ArrayList<>(); // Utilize a ListArray to allow for dynamic resizing based on number of price inputs.
+      ArrayList<Float> inputPrices = new ArrayList<>(); // Utilize a ListArray to allow for dynamic resizing based on number of price inputs.
 
       do{
         try {
           System.out.print("Price to add: ");
           final String nextPriceString = SCANNER.nextLine();
           if (nextPriceString.isEmpty()) break;
-          inputPrices.add(Double.parseDouble(nextPriceString));
-        } catch (InputMismatchException e) { // if the user input's a non-number, terminate the input process
-            System.out.println("Non-numerical value detected. Terminating Price input process.");
-            SCANNER.next(); // clear scanner buffer
+          inputPrices.add(Float.parseFloat(nextPriceString));
+        // if the user input's a non-number, terminate the input process
+        } catch (NumberFormatException e) {
+          System.out.println("Non-numerical value detected. Terminating Price input process.");
             break;
         }
       } while (true);
 
       // create an array based on the size of the ListArray.
       final int LIST_SIZE = inputPrices.size();
-      chartPrices[dayIndex] = new double[LIST_SIZE]; 
+      chartPrices[dayIndex] = new float[LIST_SIZE]; 
 
-      // copy the elements of the ArrayList to the double[];
+      // copy the elements of the ArrayList to the float[];
       for (int priceIndex = 0; priceIndex < LIST_SIZE; priceIndex++) {
         chartPrices[dayIndex][priceIndex] = inputPrices.get(priceIndex);
       }
@@ -75,22 +74,55 @@ public class StockPrices {
     return chartPrices;
   }
 
-  // Instance method returning the average stock price calculated from the provided stock prices as a double.
-  public double calculateAveragePrice(int dayIndex) {
+  /**
+   * Instance method that returns the average stock price on a given day
+   * @param dayIndex Index of an array of prices to evaluate
+   * @return The average price as a float
+   */
+  public float calculateAveragePrice(int dayIndex) {
     return StockCalculator.calculateAveragePrice(this.prices[dayIndex]);
   }
   
-  // Instance method returning the maximum stock price from the provided stock prices as a double.
-  public double findMaximumPrice(int dayIndex) {
+  /**
+   * Instance method that calculates the maximum price of a stock on a given day
+   * @param dayIndex Index of an array of prices to evaluate
+   * @return The maximum price found in an array as an integer or 0 if the array length is 0
+   */
+  public float findMaximumPrice(int dayIndex) {
     return StockCalculator.findMaximumPrice(this.prices[dayIndex]);
   }
 
-  // Instance method returning the frequency a price occurs within the provided stock prices as an integer.
-  public int countOccurrences(int dayIndex, double priceToFind) {
+  /**
+   * Instance method that counts the frequency of a given price of a stock on a given day
+   * @param dayIndex Index of an array of prices to evaluate
+   * @param priceToFind Price to find
+   * @return The frequency a given price occurs in priceArray as an integer
+   */
+  public int countOccurrences(int dayIndex, float priceToFind) {
     return StockCalculator.countOccurrences(this.prices[dayIndex], priceToFind);
   }
 
-  public double computeCumulativeSum(int dayIndex) {
-    return StockCalculator.computeCumulativeSum(this.prices[dayIndex]);
+  /**
+   * Instance method that computes the cumulative sum of an ArrayList so that each element is the sum of itself and all the values before it
+   * @param dayIndex Index of an array of prices to evaluate
+   * @return An ArrayList of Float values containing the cumulative sum at each element
+   */
+  public ArrayList<Float> computeCumulativeSum(int dayIndex) {
+    return StockCalculator.computeCumulativeSum(convertPriceToArrayList(dayIndex));
+  }
+
+  /**
+   * Subroutine that converts an array of prices to an ArrayList
+   * @param dayIndex Index of an array of prices to evaluate
+   * @return An ArrayList of Float values containing the prices of a stock on a given day
+   */
+  private ArrayList<Float> convertPriceToArrayList(int dayIndex) {
+    final ArrayList<Float> floatArrayList = new ArrayList<>();
+
+    for (float price : this.prices[dayIndex]) {
+        floatArrayList.add(price);
+    }
+
+    return floatArrayList;
   }
 }
