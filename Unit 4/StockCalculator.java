@@ -125,5 +125,5 @@ public class StockCalculator {
     }
 
     return FLOAT_ARRAY_LIST;
-}
+  }
 }
