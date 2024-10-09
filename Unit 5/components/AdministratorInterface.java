@@ -129,7 +129,7 @@ public class AdministratorInterface {
 
   /**
    * Handles the process of calculating and displaying overall grades.
-   * @throws CourseException.CourseNotFoundException If a course is not found.
+   * @throws CourseException.CourseNotFoundException If a course is not found or if no courses are in the system yet.
    * @throws StudentException.StudentNotFoundException If a student is not found.
    * @throws PromptException If there's an issue with user input.
    * @throws CourseException.NoCourseGrades If there are no grades for a course.
@@ -144,6 +144,8 @@ public class AdministratorInterface {
 
       switch (SELECTION) {
         case 1:
+          if (CourseManagement.getCourseList().size() == 0) throw new CourseException.CourseNotFoundException("No courses have been added yet");
+
           final Student STUDENT_SELECTION = StudentUtilities.findStudent();
           final double OVERALL_GRADE = CourseManagement.calculateOverallGrades(STUDENT_SELECTION);
 
@@ -156,7 +158,7 @@ public class AdministratorInterface {
           } else if (CourseManagement.getStudentList().size() < 1) {
             throw new StudentException.StudentNotFoundException("There are no students to get grades from.");
           } else {
-            System.out.println("Displaying the average grade of each course.");
+            System.out.println("\nDisplaying the average grade of each course.");
             System.out.println(Arrays.toString(CourseManagement.getCourseListStrings()));
             System.out.println(Arrays.toString(CourseManagement.calculateOverallGradesPerCourse()));
             break;
@@ -174,7 +176,7 @@ public class AdministratorInterface {
     final String[] COURSE_LIST_NAMES = CourseManagement.getCourseListStrings();
     final MenuInterface COURSE_LIST_SELECTION = new MenuInterface(COURSE_LIST_NAMES);
     final int COURSE_SELECTION_INDEX = COURSE_LIST_SELECTION.promptMenuSelection();
-    
+
     if (COURSE_SELECTION_INDEX == COURSE_LIST_SELECTION.getExitOptionInteger()) return null;
     
     return CourseManagement.getCourseList().get(COURSE_SELECTION_INDEX - 1);
