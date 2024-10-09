@@ -1,8 +1,8 @@
 package components;
+import Exceptions.*;
 import utilities.MenuInterface;
 import utilities.Prompt;
 import utilities.PromptException;
-import Exceptions.*;
 import lib.CourseManagerUtilities;
 import lib.StudentUtilities;
 import java.util.Arrays;

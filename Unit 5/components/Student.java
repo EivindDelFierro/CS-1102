@@ -1,8 +1,8 @@
 package components;
-import utilities.Prompt;
-import utilities.PromptException;
 import java.util.ArrayList;
 import Exceptions.*;
+import utilities.Prompt;
+import utilities.PromptException;
 import lib.CourseGrades;
 
 /**

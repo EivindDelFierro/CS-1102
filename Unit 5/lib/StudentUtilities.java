@@ -1,10 +1,10 @@
 package lib;
 import java.util.ArrayList;
 import Exceptions.*;
-import components.CourseManagement;
-import components.Student;
 import utilities.Prompt;
 import utilities.PromptException;
+import components.CourseManagement;
+import components.Student;
 
 /**
  * Provides utility methods for student-related operations.
