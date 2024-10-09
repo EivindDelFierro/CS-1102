@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 /**
  * Prompt Class
+ * 
  * Utility class for prompting users for input with built-in error handling.
  * This class provides methods to get valid integer, double, and string inputs from the user.
  * It uses a static Scanner to read input from the console.
@@ -15,6 +16,7 @@ public class Prompt {
    * Prompts the user for an integer input with a custom prompt message.
    * @param prompt The prompt message to display to the user.
    * @return A valid integer entered by the user.
+   * @throws PromptException If there's an issue with user input.
    */
   public static int getValidInt(String prompt) throws PromptException {
     newLinePrompt(prompt);
@@ -24,6 +26,7 @@ public class Prompt {
   /**
    * Prompts the user for an integer input without a custom prompt message.
    * @return A valid integer entered by the user.
+   * @throws PromptException If there's an issue with user input.
    */
   public static int getValidInt() throws PromptException {
     do {
@@ -41,6 +44,7 @@ public class Prompt {
    * Prompts the user for a double input with a custom prompt message.
    * @param prompt The prompt message to display to the user.
    * @return A valid double entered by the user.
+   * @throws PromptException If there's an issue with user input.
    */
   public static double getValidDouble(String prompt) throws PromptException {
     newLinePrompt(prompt);
@@ -50,6 +54,7 @@ public class Prompt {
   /**
    * Prompts the user for a double input without a custom prompt message.
    * @return A valid double entered by the user.
+   * @throws PromptException If there's an issue with user input.
    */
   public static double getValidDouble() throws PromptException {
     do {
@@ -67,6 +72,7 @@ public class Prompt {
    * Prompts the user for a string input with a custom prompt message.
    * @param prompt The prompt message to display to the user.
    * @return A valid non-empty string entered by the user.
+   * @throws PromptException If there's an issue with user input.
    */
   public static String getValidString(String prompt) throws PromptException {
     newLinePrompt(prompt);
@@ -76,6 +82,7 @@ public class Prompt {
   /**
    * Prompts the user for a string input without a custom prompt message.
    * @return A valid non-empty string entered by the user.
+   * @throws PromptException If there's an issue with user input.
    */
   public static String getValidString() throws PromptException {
     do {
@@ -92,6 +99,7 @@ public class Prompt {
   /**
    * Displays a prompt message on a new line.
    * @param prompt The prompt message to display.
+   * @throws PromptException If there's an issue with displaying the prompt.
    */
   private static void newLinePrompt(String prompt) throws PromptException {
     System.out.printf("\n" + prompt + "\n");
@@ -100,6 +108,7 @@ public class Prompt {
   /**
    * Prompts the user for input and returns the trimmed input string.
    * @return The user's input as a trimmed string.
+   * @throws PromptException If there's an issue with getting user input.
    */
   private static String askForInput() throws PromptException {
     System.out.print("Input: ");
