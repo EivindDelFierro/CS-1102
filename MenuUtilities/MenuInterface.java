@@ -50,7 +50,6 @@ package MenuUtilities;
     
     System.out.printf("Select an option above or enter %d to exit\n", TRUE_OPTIONS_LENGTH);
 
-    // loop to validate that input is valid for the current menu
     while (true) {
       final int SELECTION = Prompt.getValidInt();
 
@@ -61,6 +60,14 @@ package MenuUtilities;
       }
     }
   }   
+
+  /**
+   * Gets the integer for the menu exit option.
+   * @return The size of options array plus one.
+   */
+  public int getExitOptionInteger() {
+    return this.options.length + 1;
+  }
 }
  
  
