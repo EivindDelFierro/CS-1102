@@ -25,6 +25,7 @@ package MenuUtilities;
    */
   public int promptMenuSelection(boolean includeExit) throws PromptException{
     showMenuOption(includeExit);
+    System.out.println();
     return selectMenuOption(includeExit);
   }
 

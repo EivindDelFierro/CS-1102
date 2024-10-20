@@ -1,4 +1,4 @@
-package MenuUtilities;
+package utilities;
 
 /**
  * MenuInterface Class
@@ -23,38 +23,43 @@ package MenuUtilities;
    * @return The user's menu selection as an integer.
    * @throws PromptException If there's an issue with user input.
    */
-  public int promptMenuSelection(boolean includeExit) throws PromptException{
-    showMenuOption(includeExit);
-    return selectMenuOption(includeExit);
+  public int promptMenuSelection() throws PromptException{
+    showMenuOptions();
+    return selectMenuOption();
   }
 
   /**
-   * Displays the menu options without an exit option.
+   * Displays the menu options.
    */
-  public void showMenuOption(boolean includeExit) {
+  public void showMenuOptions() {
     System.out.println();
     for (int i = 0; i < this.options.length; i++) {
       System.out.printf("     %d: %s\n", i + 1, options[i]);
     }
 
-    if (includeExit) System.out.printf("     %d: Exit\n\n", this.options.length + 1);
+    System.out.printf("     %d: Exit\n\n", this.options.length + 1);
   }
-  
 
-  public int selectMenuOption(boolean includeExit) throws PromptException {
-    int maxOption = includeExit ? this.options.length + 1 : this.options.length;
+  /**
+   * Prompts the user to select a menu option.
+   * @return A valid menu selection as an integer.
+   * @throws PromptException If there's an issue with user input.
+   */
+  public int selectMenuOption() throws PromptException {
+    final int TRUE_OPTIONS_LENGTH = this.options.length + 1;
     
-    System.out.printf("Select an option above%s\n", 
-        includeExit ? String.format(" or enter %d to exit", maxOption) : "");
+    System.out.printf("Select an option above or enter %d to exit\n", TRUE_OPTIONS_LENGTH);
 
     while (true) {
-        int selection = Prompt.getValidInt();
-        if (selection > 0 && selection <= maxOption) {
-            return selection;
-        }
-        System.out.printf("\nError: You must select an option from 1 to %d\n", maxOption);
+      final int SELECTION = Prompt.getValidInt();
+
+      if (SELECTION > 0 && SELECTION <= TRUE_OPTIONS_LENGTH) {
+        return SELECTION;
+      } else {
+        System.out.printf("\nError: You must select an option from 1 to %d\n", TRUE_OPTIONS_LENGTH);
+      }
     }
-  }
+  }   
 
   /**
    * Gets the integer for the menu exit option.
